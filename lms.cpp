@@ -167,32 +167,94 @@ public:
 
 int main() {
     Library lib;
+    int choice;
 
-    // Add books
-    lib.addBook("C++_Primer", "Stanley", 1);
-    lib.addBook("OOP_Concepts", "Balaguruswamy", 2);
-    lib.addBook(Book("Algorithms", "Cormen", 3));
+    while (true) {
+        cout << "\n===== LIBRARY MENU =====\n";
+        cout << "1. Add Book\n";
+        cout << "2. Add Member\n";
+        cout << "3. Show All Books\n";
+        cout << "4. Show All Members\n";
+        cout << "5. Issue Book\n";
+        cout << "6. Search Book\n";
+        cout << "7. Save Books to File\n";
+        cout << "8. Load Books from File\n";
+        cout << "9. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
 
-    // Add Members
-    lib.addMember("Alice", 101);
-    lib.addMember(Member("Bob", 102));
+        if (choice == 1) {
+            string title, author;
+            int id;
+            cout << "Enter Book Title (no spaces): ";
+            cin >> title;
+            cout << "Enter Author Name (no spaces): ";
+            cin >> author;
+            cout << "Enter Book ID: ";
+            cin >> id;
+            lib.addBook(title, author, id);
+            cout << "Book added!\n";
+        }
+        else if (choice == 2) {
+            string name;
+            int id;
+            cout << "Enter Member Name (no spaces): ";
+            cin >> name;
+            cout << "Enter Member ID: ";
+            cin >> id;
+            lib.addMember(name, id);
+            cout << "Member added!\n";
+        }
+        else if (choice == 3) {
+            cout << "\n=== All Books ===\n";
+            lib.showAllBooks();
+        }
+        else if (choice == 4) {
+            cout << "\n=== All Members ===\n";
+            lib.showAllMembers();
+        }
+        else if (choice == 5) {
+            int bookId, memberId;
+            cout << "Enter Book ID to issue: ";
+            cin >> bookId;
+            cout << "Enter Member ID: ";
+            cin >> memberId;
+            lib.issueBook(bookId, memberId);
+        }
+        else if (choice == 6) {
+            string title, author;
+            int id;
+            cout << "Enter Book Title (no spaces): ";
+            cin >> title;
+            cout << "Enter Author: ";
+            cin >> author;
+            cout << "Enter ID: ";
+            cin >> id;
 
-    // Display all books and members
-    cout << "Books in the Library:\n";
-    lib.showAllBooks();
+            Book findBook(title, author, id);
+            int pos = searchItem(lib.getBooks(), findBook);
 
-    cout << "\nLibrary Members:\n";
-    lib.showAllMembers();
+            if (pos == -1)
+                cout << "Book NOT found!\n";
+            else
+                cout << "Book found at position: " << pos << endl;
+        }
+        else if (choice == 7) {
+            lib.saveBooksToFile("books.txt");
+            cout << "Books saved to books.txt\n";
+        }
+        else if (choice == 8) {
+            lib.loadBooksFromFile("books.txt");
+            cout << "Books loaded from books.txt\n";
+        }
+        else if (choice == 9) {
+            cout << "Exiting...\n";
+            break;
+        }
+        else {
+            cout << "Invalid choice! Try again.\n";
+        }
+    }
 
-    // Demonstrate Templates
-    Book findBook("Algorithms", "Cormen", 3);
-    int pos = searchItem(lib.getBooks(), findBook);  // USE getBooks()!
-    cout << "\nBook 'Algorithms' found at position: " << pos << endl;
-
-    // Exception Handling
-    lib.issueBook(3, 101); // Issue book ID 3 to Member ID 101
-
-    // File Handling demonstration
-    lib.saveBooksToFile("books.txt");
-    lib.loadBooksFromFile("books.txt");
+    return 0;
 }
